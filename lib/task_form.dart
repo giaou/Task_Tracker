@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:task_tracker/data.dart';
 //List of tasks' statuses
 List<String> list = <String>['Open','In Progress','Complete'];
 class TaskForm extends StatefulWidget {
   const TaskForm({super.key});
+
 
   @override
   State<TaskForm> createState() => _TaskFormState();
@@ -69,6 +72,7 @@ class _TaskFormState extends State<TaskForm> {
             ElevatedButton(
                 onPressed: (){
                   if(_formKey.currentState!.validate()){
+                    context.read<TaskList>().addTask(Task(title.text,description.text,dropdownValue));
                     print('Title: ${title.text}, description: ${description.text}, status: $dropdownValue');
                   }
                 },
