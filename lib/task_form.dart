@@ -12,6 +12,11 @@ class _TaskFormState extends State<TaskForm> {
 
   //define the global key
   final _formKey = GlobalKey<FormState>();
+  //Text Controllers
+
+  TextEditingController title = TextEditingController();
+  TextEditingController description = TextEditingController();
+  TextEditingController status = TextEditingController();
 
 
 
@@ -29,6 +34,7 @@ class _TaskFormState extends State<TaskForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
+              controller: title,
               validator: (value){
                 if(value==null||value.isEmpty){
                   return 'Title of the task cannot be empty';
@@ -37,6 +43,7 @@ class _TaskFormState extends State<TaskForm> {
               },
             ),
             TextFormField(
+              controller: description,
               validator: (value){
                 if(value==null||value.isEmpty){
                   return 'Description of the task cannot be empty';
@@ -62,10 +69,10 @@ class _TaskFormState extends State<TaskForm> {
             ElevatedButton(
                 onPressed: (){
                   if(_formKey.currentState!.validate()){
-                    print('Pressed');
+                    print('Title: ${title.text}, description: ${description.text}, status: $dropdownValue');
                   }
                 },
-                child: const Text('Submit'),
+                child:  Text('Submit'),
             ),
           ],
         ),
