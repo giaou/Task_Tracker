@@ -89,14 +89,15 @@ class _TaskFormState extends State<TaskForm> {
                 );
               }).toList(),
             ),
+            Text(widget.task!=null?widget.task!.updateTime!.toString():""),
             ElevatedButton(
                 onPressed: (){
                   if(_formKey.currentState!.validate()&&widget.task==null){
-                    context.read<TaskList>().addTask(Task(titleHandler.text,descriptionHandler.text,dropdownValue));
+                    context.read<TaskList>().addTask(Task(titleHandler.text,descriptionHandler.text,dropdownValue,DateTime.now()));
                     print('Title: ${titleHandler.text}, description: ${descriptionHandler.text}, status: $dropdownValue');
                   }
                   else if(_formKey.currentState!.validate()&&widget.task!=null){
-                    context.read<TaskList>().updateCurrentTask(Task(titleHandler.text,descriptionHandler.text,dropdownValue),widget.index!);
+                    context.read<TaskList>().updateCurrentTask(Task(titleHandler.text,descriptionHandler.text,dropdownValue,DateTime.now()),widget.index!);
                     print('Title: ${titleHandler.text}, description: ${descriptionHandler.text}, status: $dropdownValue');
                   }
                 },
