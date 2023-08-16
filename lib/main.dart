@@ -71,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
           return ListTile(
             leading: CircleAvatar(
               backgroundColor: const Color(0xff764abc),
-              child: Text(index.toString()),
+              child: Text((index+1).toString()),
             ),
             title: Text(taskHolder.taskList[index].title!),
             subtitle: Text(taskHolder.taskList[index].description!),
