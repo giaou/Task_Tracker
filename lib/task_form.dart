@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:task_tracker/data.dart';
 //List of tasks' statuses
@@ -93,11 +94,11 @@ class _TaskFormState extends State<TaskForm> {
             ElevatedButton(
                 onPressed: (){
                   if(_formKey.currentState!.validate()&&widget.task==null){
-                    context.read<TaskList>().addTask(Task(titleHandler.text,descriptionHandler.text,dropdownValue,DateTime.now()));
+                    context.read<TaskList>().addTask(Task(titleHandler.text,descriptionHandler.text,dropdownValue,DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now())));
                     print('Title: ${titleHandler.text}, description: ${descriptionHandler.text}, status: $dropdownValue');
                   }
                   else if(_formKey.currentState!.validate()&&widget.task!=null){
-                    context.read<TaskList>().updateCurrentTask(Task(titleHandler.text,descriptionHandler.text,dropdownValue,DateTime.now()),widget.index!);
+                    context.read<TaskList>().updateCurrentTask(Task(titleHandler.text,descriptionHandler.text,dropdownValue,DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now())),widget.index!);
                     print('Title: ${titleHandler.text}, description: ${descriptionHandler.text}, status: $dropdownValue');
                   }
                 },
