@@ -23,8 +23,8 @@ class TaskList with ChangeNotifier{
     notifyListeners();
   }
 
-  updateCurrentTask(int index){
-    _currentIndex = index;
+  updateCurrentTask(Task task, int index){
+    _taskList[index] = task;
     notifyListeners();
   }
 
