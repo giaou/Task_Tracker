@@ -4,13 +4,14 @@ class Task {
   String? title;
   String? description;
   String? status;
+  DateTime? updateTime;
 
-  Task( this.title, this.description, this.status);
+  Task( this.title, this.description, this.status, this.updateTime);
 }
 
 class TaskList with ChangeNotifier{
-  final List<Task> _taskList = [Task('Add Task feature','Make the flutter app be able to list the added tasks','In Progress'),
-                       Task('Watch Youtube','Watch episode 2','Open')];
+  final List<Task> _taskList = [Task('Add Task feature','Make the flutter app be able to list the added tasks','In Progress',DateTime.now()),
+                       Task('Watch Youtube','Watch episode 2','Open',DateTime.now())];
 
 
   int _currentIndex = 0;
