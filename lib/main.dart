@@ -77,14 +77,16 @@ class _MyHomePageState extends State<MyHomePage> {
             subtitle: Text(taskHolder.taskList[index].description!),
             trailing: const Icon(Icons.more_vert),
             onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const TaskForm()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => TaskForm(title: taskHolder.taskList[index].title!,
+                                                                                       description: taskHolder.taskList[index].description!,
+                                                                                       status: taskHolder.taskList[index].status!,)));
             },
           );
         }
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const TaskForm()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) =>  TaskForm()));
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
