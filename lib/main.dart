@@ -3,6 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:task_tracker/data.dart';
 import 'package:task_tracker/task_form.dart';
 
+
+//List of tasks' statuses
+List<String> list = <String>['All','Open','In Progress','Complete'];
+
 void main() {
   runApp(const MyApp());
 }
@@ -48,16 +52,39 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  //initialize dropdown value
+  String dropdownValue = list.first;
+
   @override
   Widget build(BuildContext context) {
     final taskHolder = context.watch<TaskList>();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body:  ListView.builder(
-            /*shrinkWrap: true,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          DropdownButton(
+            value: dropdownValue,
+            icon: const Icon(Icons.arrow_downward),
+            onChanged: (String? value){
+              setState(() {
+                dropdownValue = value!;
+              });
+            },
+            items: list.map<DropdownMenuItem<String>>((String value){
+              return DropdownMenuItem<String>(
+                value:value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+          Expanded(
+            child: (dropdownValue != 'All')?ListView.builder(
+              /*shrinkWrap: true,
             itemCount: taskHolder.taskList.length,
             itemBuilder: ((context, index) => Card(
                 margin: const EdgeInsets.all(8.0),
@@ -66,21 +93,45 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Text(taskHolder.taskList[index].title!)
                 )
             )),*/
-        itemCount: taskHolder.taskList.length,
-        itemBuilder: (context,index){
-          return ListTile(
-            leading: CircleAvatar(
-              backgroundColor: const Color(0xff764abc),
-              child: Text((index+1).toString()),
-            ),
-            title: Text(taskHolder.taskList[index].title!),
-            subtitle: Text(taskHolder.taskList[index].description!),
-            trailing: const Icon(Icons.more_vert),
-            onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => TaskForm(task: taskHolder.taskList[index],index: index)));
-            },
-          );
-        }
+                itemCount: taskHolder.taskList.where((task) => task.status == dropdownValue).length,
+                itemBuilder: (context,index){
+                  //filterTasks
+                  final filterTasks = taskHolder.taskList.where((task) => task.status == dropdownValue ).toList();
+                  final currentTask = filterTasks[index];
+                  
+                  return ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: const Color(0xff764abc),
+                      child: Text((index+1).toString()),
+                    ),
+                    title: Text(currentTask.title!),
+                    subtitle: Text("${currentTask.description!} | ${currentTask.status!}"),
+                    trailing: const Icon(Icons.more_vert),
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => TaskForm(task: currentTask,index: index)));
+                    },
+                  );
+                },
+            ) : ListView.builder(
+              itemCount: taskHolder.taskList.length,
+              itemBuilder: (context,index){
+                return ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: const Color(0xff764abc),
+                    child: Text((index+1).toString()),
+                  ),
+                  title: Text(taskHolder.taskList[index].title!),
+                  subtitle: Text("${taskHolder.taskList[index].description!} | ${taskHolder.taskList[index].status!}"),
+                  trailing: const Icon(Icons.more_vert),
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => TaskForm(task: taskHolder.taskList[index],index: index)));
+                  },
+                );
+              },
+            ) ,
+          ),
+
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
