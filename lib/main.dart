@@ -77,9 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
             subtitle: Text(taskHolder.taskList[index].description!),
             trailing: const Icon(Icons.more_vert),
             onTap: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context) => TaskForm(title: taskHolder.taskList[index].title!,
-                                                                                       description: taskHolder.taskList[index].description!,
-                                                                                       status: taskHolder.taskList[index].status!,)));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => TaskForm(task: taskHolder.taskList[index],index: index)));
             },
           );
         }
