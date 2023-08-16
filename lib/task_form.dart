@@ -4,12 +4,9 @@ import 'package:task_tracker/data.dart';
 //List of tasks' statuses
 List<String> list = <String>['Open','In Progress','Complete'];
 class TaskForm extends StatefulWidget {
-  TaskForm({this.title, this.description, this.status, super.key});
-  String? title;
-  String? description;
-  String? status;
-
-
+  TaskForm({this.task, this.index, super.key});
+  Task? task;
+  int? index;
 
 
 
@@ -32,10 +29,10 @@ class _TaskFormState extends State<TaskForm> {
   @override
   void initState(){
     super.initState();
-    if(widget.title!=null && widget.description!=null &&widget.status!=null){
-      titleHandler.text = widget.title!;
-      descriptionHandler.text = widget.description!;
-      dropdownValue = widget.status!;
+    if(widget.task!=null){
+      titleHandler.text = widget.task!.title!;
+      descriptionHandler.text = widget.task!.description!;
+      dropdownValue = widget.task!.status!;
     }
   }
 
@@ -46,7 +43,7 @@ class _TaskFormState extends State<TaskForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: widget.title!=null? const Text('Edit Task'):const Text('Create Task'),
+        title: widget.task!=null? const Text('Edit Task'):const Text('Create Task'),
       ),
       body: Form(
         key: _formKey,
@@ -94,8 +91,12 @@ class _TaskFormState extends State<TaskForm> {
             ),
             ElevatedButton(
                 onPressed: (){
-                  if(_formKey.currentState!.validate()){
+                  if(_formKey.currentState!.validate()&&widget.task==null){
                     context.read<TaskList>().addTask(Task(titleHandler.text,descriptionHandler.text,dropdownValue));
+                    print('Title: ${titleHandler.text}, description: ${descriptionHandler.text}, status: $dropdownValue');
+                  }
+                  else if(_formKey.currentState!.validate()&&widget.task!=null){
+                    context.read<TaskList>().updateCurrentTask(Task(titleHandler.text,descriptionHandler.text,dropdownValue),widget.index!);
                     print('Title: ${titleHandler.text}, description: ${descriptionHandler.text}, status: $dropdownValue');
                   }
                 },
