@@ -10,8 +10,9 @@ class Task {
 }
 
 class TaskList with ChangeNotifier{
-  final List<Task> _taskList = [Task('Add Task feature','Make the flutter app be able to list the added tasks','In Progress',"unknown"),
-                       Task('Watch Youtube','Watch episode 2','Open',"unknown")];
+  final List<Task> _taskList = [Task('Add Task feature','Make the flutter app be able to list the added tasks','Complete',"unknown"),
+                       Task('Watch Youtube','Watch episode 2','Open',"unknown"),
+                       Task('Add the filter','Users will be able to show all tasks or tasks with a specific status','In Progress','unknown')];
 
 
   int _currentIndex = 0;
@@ -28,7 +29,5 @@ class TaskList with ChangeNotifier{
     _taskList[index] = task;
     notifyListeners();
   }
-
-
 
 }
