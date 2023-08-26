@@ -16,7 +16,7 @@ class TaskList with ChangeNotifier{
 
 
   int _currentIndex = 0;
-
+  // get the whole list
   List<Task> get taskList => _taskList.toList();
   firstTask() => _taskList[_currentIndex];
 
