@@ -11,22 +11,21 @@ void main() {
   runApp(const MyApp());
 }
 
+// const _router = GoRouter(
+//   routes:[
+//     GoRoute(
+//       path:'/'
+//     )
+//   ]
+// )
+
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    /*return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Task Tracker_GiaoU'),
-      //home:const TaskForm(),
-    );*/
     return ChangeNotifierProvider(
       create: (context)=>TaskList(),
       child: MaterialApp(
@@ -55,9 +54,12 @@ class _MyHomePageState extends State<MyHomePage> {
   //initialize dropdown value
   String dropdownValue = list.first;
 
+
+
   @override
   Widget build(BuildContext context) {
     final taskHolder = context.watch<TaskList>();
+
 
     return Scaffold(
       appBar: AppBar(
@@ -83,56 +85,34 @@ class _MyHomePageState extends State<MyHomePage> {
             }).toList(),
           ),
           Expanded(
-            child: (dropdownValue != 'All')?ListView.builder(
-              /*shrinkWrap: true,
-            itemCount: taskHolder.taskList.length,
-            itemBuilder: ((context, index) => Card(
-                margin: const EdgeInsets.all(8.0),
-                child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(taskHolder.taskList[index].title!)
-                )
-            )),*/
-                itemCount: taskHolder.taskList.where((task) => task.status == dropdownValue).length,
-                itemBuilder: (context,index){
-                  //filterTasks
-                  final filterTasks = taskHolder.taskList.where((task) => task.status == dropdownValue ).toList();
-                  final currentTask = filterTasks[index];
-                  
-                  return ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: const Color(0xff764abc),
-                      child: Text((index+1).toString()),
-                    ),
-                    title: Text(currentTask.title!),
-                    subtitle: Text("${currentTask.description!} | ${currentTask.status!}"),
-                    trailing: const Icon(Icons.more_vert),
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => TaskForm(task: currentTask,index: index)));
-                    },
-                  );
-                },
-            ) : ListView.builder(
+            //display tasks on the screen
+            child:  ListView.builder(
               itemCount: taskHolder.taskList.length,
               itemBuilder: (context,index){
-                return ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: const Color(0xff764abc),
-                    child: Text((index+1).toString()),
-                  ),
-                  title: Text(taskHolder.taskList[index].title!),
-                  subtitle: Text("${taskHolder.taskList[index].description!} | ${taskHolder.taskList[index].status!}"),
-                  trailing: const Icon(Icons.more_vert),
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => TaskForm(task: taskHolder.taskList[index],index: index)));
-                  },
-                );
+                //check if the users want to display all tasks or only tasks with a specific status
+                return dropdownValue=="All"|| taskHolder.taskList[index].status==dropdownValue? Visibility(
+                  visible: true,
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: const Color(0xff764abc),
+                        child: Text((index+1).toString()),
+                      ),
+                      title: Text(taskHolder.taskList[index].title!),
+                      subtitle: Text("${taskHolder.taskList[index].description!} | ${taskHolder.taskList[index].status!}"),
+                      trailing: const Icon(Icons.more_vert),
+                      onTap: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => TaskForm(task: taskHolder.taskList[index],index: index)));
+                      },
+                    ) ,
+                )
+                    :  const Visibility(visible: false, child: Text(""),);
               },
             ) ,
           ),
 
         ],
       ),
+      //Adding task functions
       floatingActionButton: FloatingActionButton(
         onPressed: (){
           Navigator.push(context, MaterialPageRoute(builder: (context) =>  TaskForm()));
