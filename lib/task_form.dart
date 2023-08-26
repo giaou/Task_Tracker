@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:task_tracker/data.dart';
@@ -102,7 +103,7 @@ class _TaskFormState extends State<TaskForm> {
                     context.read<TaskList>().updateCurrentTask(Task(titleHandler.text,descriptionHandler.text,dropdownValue,DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now())),widget.index!);
                     print('edited Index: ${widget.index} Title: ${titleHandler.text}, description: ${descriptionHandler.text}, status: $dropdownValue');
                   }
-                  Navigator.pop(context);
+                  context.pop();
                 },
                 child:  Text('Submit'),
             ),
