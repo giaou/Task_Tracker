@@ -93,14 +93,16 @@ class _TaskFormState extends State<TaskForm> {
             Text(widget.task!=null?widget.task!.updateTime!.toString():""),
             ElevatedButton(
                 onPressed: (){
+                  print('original: Index: ${widget.index} Title: ${titleHandler.text}, description: ${descriptionHandler.text}, status: $dropdownValue');
                   if(_formKey.currentState!.validate()&&widget.task==null){
                     context.read<TaskList>().addTask(Task(titleHandler.text,descriptionHandler.text,dropdownValue,DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now())));
-                    print('Title: ${titleHandler.text}, description: ${descriptionHandler.text}, status: $dropdownValue');
+                    print('add: Index: ${widget.index} Title: ${titleHandler.text}, description: ${descriptionHandler.text}, status: $dropdownValue');
                   }
                   else if(_formKey.currentState!.validate()&&widget.task!=null){
                     context.read<TaskList>().updateCurrentTask(Task(titleHandler.text,descriptionHandler.text,dropdownValue,DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now())),widget.index!);
-                    print('Title: ${titleHandler.text}, description: ${descriptionHandler.text}, status: $dropdownValue');
+                    print('edited Index: ${widget.index} Title: ${titleHandler.text}, description: ${descriptionHandler.text}, status: $dropdownValue');
                   }
+                  Navigator.pop(context);
                 },
                 child:  Text('Submit'),
             ),
