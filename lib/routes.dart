@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:task_tracker/data.dart';
 import 'package:task_tracker/home_page.dart';
 import 'package:task_tracker/task_form.dart';
 
@@ -8,7 +9,11 @@ final routes = [
       builder: (context,state) => const MyHomePage(title: 'Home Page')
   ),
   GoRoute(
-      path: '/form',
-      builder: (context,state) => TaskForm()
+    path:'/form',
+    builder: (context,state) {
+      Task? task = state.extra as Task?;
+      return TaskForm(oldTask: task);
+
+    }
   )
 ];
