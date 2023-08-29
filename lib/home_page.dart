@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     trailing: const Icon(Icons.more_vert),
                     onTap: (){
                       //Navigator.push(context, MaterialPageRoute(builder: (context) => TaskForm(task: taskHolder.taskList[index],index: index)));
-                      context.push('/form_edit',extra: taskHolder.taskList[index]);
+                      context.push('/form',extra: taskHolder.taskList[index]);
                     },
                   ) ,
                 )
@@ -84,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
       //Adding task functions
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          context.push('/form_edit');
+          context.push('/form');
         },
         tooltip: 'Increment',
         child: const Icon(Icons.add),
