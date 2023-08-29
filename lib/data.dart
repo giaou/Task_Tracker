@@ -25,8 +25,12 @@ class TaskList with ChangeNotifier{
     notifyListeners();
   }
 
-  updateCurrentTask(Task task, int index){
-    _taskList[index] = task;
+  updateCurrentTask(Task oldTask, Task newTask){
+    final oldIndex = _taskList.indexOf(oldTask);
+    //check if task exist?
+    if(oldIndex>=0){
+      _taskList[oldIndex] = newTask;
+    }
     notifyListeners();
   }
 
