@@ -6,9 +6,9 @@ import 'package:task_tracker/data.dart';
 //List of tasks' statuses
 List<String> list = <String>['Open','In Progress','Complete'];
 class TaskForm extends StatefulWidget {
-  TaskForm({this.task, this.index, super.key});
-  Task? task;
-  int? index;
+
+  TaskForm({this.oldTask,super.key});
+  Task? oldTask;
 
 
 
@@ -31,10 +31,10 @@ class _TaskFormState extends State<TaskForm> {
   @override
   void initState(){
     super.initState();
-    if(widget.task!=null){
-      titleHandler.text = widget.task!.title!;
-      descriptionHandler.text = widget.task!.description!;
-      dropdownValue = widget.task!.status!;
+    if(widget.oldTask!=null){
+      titleHandler.text = widget.oldTask!.title!;
+      descriptionHandler.text = widget.oldTask!.description!;
+      dropdownValue = widget.oldTask!.status!;
     }
   }
 
@@ -45,7 +45,7 @@ class _TaskFormState extends State<TaskForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: widget.task!=null? const Text('Edit Task'):const Text('Create Task'),
+        title: widget.oldTask!=null? const Text('Edit Task'):const Text('Create Task'),
       ),
       body: Form(
         key: _formKey,
@@ -91,17 +91,16 @@ class _TaskFormState extends State<TaskForm> {
                 );
               }).toList(),
             ),
-            Text(widget.task!=null?widget.task!.updateTime!.toString():""),
+            Text(widget.oldTask!=null?widget.oldTask!.updateTime!.toString():""),
             ElevatedButton(
                 onPressed: (){
-                  print('original: Index: ${widget.index} Title: ${titleHandler.text}, description: ${descriptionHandler.text}, status: $dropdownValue');
-                  if(_formKey.currentState!.validate()&&widget.task==null){
+                  if(_formKey.currentState!.validate()&&widget.oldTask==null){
                     context.read<TaskList>().addTask(Task(titleHandler.text,descriptionHandler.text,dropdownValue,DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now())));
-                    print('add: Index: ${widget.index} Title: ${titleHandler.text}, description: ${descriptionHandler.text}, status: $dropdownValue');
+
                   }
-                  else if(_formKey.currentState!.validate()&&widget.task!=null){
-                    context.read<TaskList>().updateCurrentTask(Task(titleHandler.text,descriptionHandler.text,dropdownValue,DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now())),widget.index!);
-                    print('edited Index: ${widget.index} Title: ${titleHandler.text}, description: ${descriptionHandler.text}, status: $dropdownValue');
+                  else if(_formKey.currentState!.validate()&&widget.oldTask!=null){
+                    context.read<TaskList>().updateCurrentTask(widget.oldTask!,Task(titleHandler.text,descriptionHandler.text,dropdownValue,DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now())));
+
                   }
                   context.pop();
                 },
