@@ -94,17 +94,24 @@ class _TaskFormState extends State<TaskForm> {
             Text(widget.oldTask!=null?widget.oldTask!.updateTime!.toString():""),
             ElevatedButton(
                 onPressed: (){
+                  //get the last id of the list
+                  int currentIndex = context.read<TaskList>().taskList.length;
                   if(_formKey.currentState!.validate()&&widget.oldTask==null){
-                    context.read<TaskList>().addTask(Task(titleHandler.text,descriptionHandler.text,dropdownValue,DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now())));
-
+                    //context.read<TaskList>().addTask(Task(currentIndex+1,titleHandler.text,descriptionHandler.text,dropdownValue,DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now())));
                   }
                   else if(_formKey.currentState!.validate()&&widget.oldTask!=null){
-                    context.read<TaskList>().updateCurrentTask(widget.oldTask!,Task(titleHandler.text,descriptionHandler.text,dropdownValue,DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now())));
+                    print(widget.oldTask!.id);
+                    for (var relationship in widget.oldTask!.relationships) {
+                      print('- Related Task ID: ${relationship.relatedTaskID}, Label: ${relationship.label}');
+                      print('- Related Task Title: ${context.read<TaskList>().getTaskFromID(relationship.relatedTaskID)}');
+                    }
+
+                    //context.read<TaskList>().updateCurrentTask(widget.oldTask!,Task(widget.oldTask!.id,titleHandler.text,descriptionHandler.text,dropdownValue,DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now())));
 
                   }
                   context.pop();
                 },
-                child:  Text('Submit'),
+                child:  const Text('Submit'),
             ),
           ],
         ),
